@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch2;
 
+import br.com.alura.screenmatch2.service.ConsumoAPI;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,6 +14,9 @@ public class Screenmatch2Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("primeiro projeto spring sem web");
+		var consumoAPI = new ConsumoAPI();
+		var json = consumoAPI.obterDados("http://www.omdbapi.com/?t=gilmore+girls" +
+				"&Season=1&apikey=a0b5e147");
+		System.out.println(json);
 	}
 }
