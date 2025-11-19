@@ -37,11 +37,14 @@ public class Principal {
 		temporadas.forEach(System.out::println);
 
         //itera para imprimir somente o título do episódio:
-        for (int i = 0; i < dados.totalTemporadas(); i++) {
-            List<DadosEpisodios> episodiosTemporada = temporadas.get(i).episodios();
-            for (int j = 0; j < episodiosTemporada.size(); j++) {
-                System.out.println(episodiosTemporada.get(j).titulo());
-            }
-        }
+//        for (int i = 0; i < dados.totalTemporadas(); i++) {
+//            List<DadosEpisodios> episodiosTemporada = temporadas.get(i).episodios();
+//            for (int j = 0; j < episodiosTemporada.size(); j++) {
+//                System.out.println(episodiosTemporada.get(j).titulo());
+//            }
+//        }
+
+        //Refatora a iteração acima:
+        temporadas.forEach(t -> t.episodios().forEach(e -> System.out.println(e.titulo())));
     }
 }
