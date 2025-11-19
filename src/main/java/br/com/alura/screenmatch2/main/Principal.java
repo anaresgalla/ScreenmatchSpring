@@ -1,5 +1,6 @@
 package br.com.alura.screenmatch2.main;
 
+import br.com.alura.screenmatch2.model.DadosEpisodios;
 import br.com.alura.screenmatch2.model.DadosSerie;
 import br.com.alura.screenmatch2.model.DadosTemporadas;
 import br.com.alura.screenmatch2.service.ConsumoAPI;
@@ -34,5 +35,13 @@ public class Principal {
 			temporadas.add(dadosTemporadas);
 		}
 		temporadas.forEach(System.out::println);
+
+        //itera para imprimir somente o título do episódio:
+        for (int i = 0; i < dados.totalTemporadas(); i++) {
+            List<DadosEpisodios> episodiosTemporada = temporadas.get(i).episodios();
+            for (int j = 0; j < episodiosTemporada.size(); j++) {
+                System.out.println(episodiosTemporada.get(j).titulo());
+            }
+        }
     }
 }
