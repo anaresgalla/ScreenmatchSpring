@@ -7,6 +7,7 @@ import br.com.alura.screenmatch2.model.Episodio;
 import br.com.alura.screenmatch2.service.ConsumoAPI;
 import br.com.alura.screenmatch2.service.ConverteDados;
 
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -102,6 +103,15 @@ public class Principal {
                 .collect(Collectors.groupingBy(Episodio::getTemporada,
                 Collectors.averagingDouble(Episodio::getAvaliacao)));
         System.out.println(avaliacoesPorTemporada);
+
+        DoubleSummaryStatistics est;
+        est = episodios.stream()
+                .filter(e -> e.getAvaliacao() > 0.0)
+                .collect(Collectors.summarizingDouble(Episodio::getAvaliacao));
+        System.out.printf("Média de avaliação dos episódios: %.2f\n", est.getAverage());
+        System.out.println("Melhor avaliação: " + est.getMax());
+        System.out.println("Pior avaliação: " + est.getMin());
+        System.out.println("Total de episódios: " + est.getCount());
     }
 }
 
