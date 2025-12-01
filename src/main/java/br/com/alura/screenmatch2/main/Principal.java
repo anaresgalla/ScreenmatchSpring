@@ -3,10 +3,12 @@ package br.com.alura.screenmatch2.main;
 import br.com.alura.screenmatch2.model.DadosSerie;
 import br.com.alura.screenmatch2.model.DadosTemporadas;
 import br.com.alura.screenmatch2.model.Episodio;
+import br.com.alura.screenmatch2.model.Serie;
 import br.com.alura.screenmatch2.service.ConsumoAPI;
 import br.com.alura.screenmatch2.service.ConverteDados;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Principal {
     private Scanner leitura = new Scanner(System.in);
@@ -83,6 +85,12 @@ public class Principal {
     }
 
     private void listarSeriesBuscadas(){
-        dadosSeries.forEach(System.out::println);
+        List<Serie> series = new ArrayList<>();
+        series = dadosSeries.stream()
+                .map(d -> new Serie(d))
+                .collect(Collectors.toList());
+        series.stream()
+                .sorted(Comparator.comparing(Serie::getGenero))
+                .forEach(System.out::println);
     }
 }
