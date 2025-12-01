@@ -15,39 +15,47 @@ public class Principal {
 
     private final String ENDERECO = "http://www.omdbapi.com/?t=";
     private final String API_KEY = "&apikey=a0b5e147";
-
+    private List<DadosSerie> dadosSeries = new ArrayList<>();
 
     public void exibeMenu(){
-        var menu = """
-                Digite sua opção:
-                
-                1 - Buscar Séries
-                2 - Buscar Episódios
-                
-                0 - Sair
-                """;
+        var opcao = -1;
+        while (opcao != 0) {
+            var menu = """
+                    Digite sua opção:
+                                    
+                    1 - Buscar Séries
+                    2 - Buscar Episódios
+                    3 - Listar Séries Buscadas
+                                    
+                    0 - Sair
+                    """;
 
-        System.out.println(menu);
-        var opcao = leitura.nextInt();
-        leitura.nextLine();
+            System.out.println(menu);
+            opcao = leitura.nextInt();
+            leitura.nextLine();
 
-        switch (opcao){
-            case 1:
-                buscarSerieWeb();
-                break;
-            case 2:
-                buscarEpisodioPorSerie();
-                break;
-            case 0:
-                System.out.println("Saindo...");
-                break;
-            default:
-                System.out.println("Opção inválida!");
+            switch (opcao) {
+                case 1:
+                    buscarSerieWeb();
+                    break;
+                case 2:
+                    buscarEpisodioPorSerie();
+                    break;
+                case 3:
+                    listarSeriesBuscadas();
+                    break;
+                case 0:
+                    System.out.println("Saindo...");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
         }
     }
 
     private void buscarSerieWeb(){
         DadosSerie dados = getDadosSerie();
+        dadosSeries.add(dados);
         System.out.println(dados);
     }
 
@@ -72,5 +80,9 @@ public class Principal {
             temporadas.add(dadosTemporadas);
         }
         temporadas.forEach(System.out::println);
+    }
+
+    private void listarSeriesBuscadas(){
+        dadosSeries.forEach(System.out::println);
     }
 }
