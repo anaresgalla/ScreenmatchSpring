@@ -1,5 +1,7 @@
 package br.com.alura.screenmatch2.model;
 
+import br.com.alura.screenmatch2.service.traducao.ConsultaMyMemory;
+
 import java.util.OptionalDouble;
 
 public class Serie {
@@ -21,7 +23,7 @@ public class Serie {
                 .trim());
         this.ano = dadosSerie.ano();
         this.elenco = dadosSerie.elenco();
-        this.sinopse = dadosSerie.sinopse();
+        this.sinopse = ConsultaMyMemory.obterTraducao(dadosSerie.sinopse()).trim();
         this.poster = dadosSerie.poster();
     }
 
