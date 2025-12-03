@@ -65,8 +65,17 @@ public class Principal {
     private void buscarSerieWeb(){
         DadosSerie dados = getDadosSerie();
         Serie serie = new Serie(dados);
-        //dadosSeries.add(dados);
+
+        // Verifica se já existe
+        Optional<Serie> serieExistente = repositorio.findByTituloIgnoreCase(serie.getTitulo());
+        if (serieExistente.isPresent()) {
+            System.out.println("A série \"" + serie.getTitulo() + "\" já está cadastrada no banco.");
+            System.out.println(serieExistente.get()); // opcional, exibe a já existente
+            return;  // evita tentar salvar novamente
+        }
+        // Se não existe, salva
         repositorio.save(serie);
+        System.out.println("Série salva com sucesso:");
         System.out.println(dados);
     }
 
