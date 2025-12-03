@@ -2,7 +2,6 @@ package br.com.alura.screenmatch2.model;
 
 import br.com.alura.screenmatch2.service.traducao.ConsultaMyMemory;
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
@@ -25,7 +24,7 @@ public class Serie {
     private String elenco;
     private String poster;
 
-    @Transient
+    @OneToMany(mappedBy = "serie")
     private List<Episodio> episodios = new ArrayList<>();
     public Serie(){}
 

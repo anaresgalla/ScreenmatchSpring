@@ -2,15 +2,11 @@ package br.com.alura.screenmatch2.main;
 
 import br.com.alura.screenmatch2.model.DadosSerie;
 import br.com.alura.screenmatch2.model.DadosTemporadas;
-import br.com.alura.screenmatch2.model.Episodio;
 import br.com.alura.screenmatch2.model.Serie;
 import br.com.alura.screenmatch2.repository.SerieRepository;
 import br.com.alura.screenmatch2.service.ConsumoAPI;
 import br.com.alura.screenmatch2.service.ConverteDados;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Principal {
     private Scanner leitura = new Scanner(System.in);
