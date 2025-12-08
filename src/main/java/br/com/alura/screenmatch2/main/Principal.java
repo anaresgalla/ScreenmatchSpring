@@ -37,6 +37,7 @@ public class Principal {
                     2 - Buscar Episódios
                     3 - Listar Séries Buscadas
                     4 - Buscar Séries por Nome
+                    5 - Buscar Séries por Elenco
                                     
                     0 - Sair
                     """;
@@ -58,6 +59,8 @@ public class Principal {
                 case 4:
                     buscarSeriePorTitulo();
                     break;
+                case 5:
+                    buscarSeriePorElenco();
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -157,5 +160,16 @@ public class Principal {
         } else{
             System.out.println("Série não encontrada!");
         }
+    }
+
+    private void buscarSeriePorElenco(){
+        System.out.println("Digite o nome para busca: ");
+        var nomeElenco = leitura.nextLine();
+        List<Serie> seriesEncontradas =
+                repositorio.findByElencoContainingIgnoreCase(nomeElenco);
+        System.out.println("Series em que " + nomeElenco + " trabalhou: ");
+        seriesEncontradas.forEach(s ->
+                System.out.println("\"" + s.getTitulo() + "\" - Avaliação: "
+                        + s.getAvaliacao()));
     }
 }
