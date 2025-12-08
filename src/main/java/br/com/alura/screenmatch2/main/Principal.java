@@ -165,8 +165,11 @@ public class Principal {
     private void buscarSeriePorElenco(){
         System.out.println("Digite o nome para busca: ");
         var nomeElenco = leitura.nextLine();
+        System.out.println("Avaliações da série a partir do valor: ");
+        var avaliacao = leitura.nextDouble();
         List<Serie> seriesEncontradas =
-                repositorio.findByElencoContainingIgnoreCase(nomeElenco);
+                repositorio.findByElencoContainingIgnoreCaseAndAvaliacaoGreaterThanEqual
+                        (nomeElenco, avaliacao);
         System.out.println("Series em que " + nomeElenco + " trabalhou: ");
         seriesEncontradas.forEach(s ->
                 System.out.println("\"" + s.getTitulo() + "\" - Avaliação: "
