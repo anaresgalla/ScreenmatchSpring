@@ -36,6 +36,7 @@ public class Principal {
                     1 - Buscar Séries
                     2 - Buscar Episódios
                     3 - Listar Séries Buscadas
+                    4 - Buscar Séries por Nome
                                     
                     0 - Sair
                     """;
@@ -54,6 +55,9 @@ public class Principal {
                 case 3:
                     listarSeriesBuscadas();
                     break;
+                case 4:
+                    buscarSeriePorTitulo();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -68,9 +72,11 @@ public class Principal {
         Serie serie = new Serie(dados);
 
         // Verifica se já existe
-        Optional<Serie> serieExistente = repositorio.findByTituloIgnoreCase(serie.getTitulo());
+        Optional<Serie> serieExistente =
+                repositorio.findByTituloContainingIgnoreCase(serie.getTitulo());
         if (serieExistente.isPresent()) {
-            System.out.println("A série \"" + serie.getTitulo() + "\" já está cadastrada no banco.");
+            System.out.println("A série \"" + serie.getTitulo()
+                    + "\" já está cadastrada no banco.");
             System.out.println(serieExistente.get()); // opcional, exibe a já existente
             return;  // evita tentar salvar novamente
         }
@@ -94,10 +100,8 @@ public class Principal {
         System.out.println("Escolha uma série pelo nome: ");
         var nomeSerie = leitura.nextLine();
 
-        Optional<Serie> serie = series.stream()
-                .filter(s -> s.getTitulo().toLowerCase()
-                .contains(nomeSerie.toLowerCase()))
-                .findFirst();
+        Optional<Serie> serie =
+                repositorio.findByTituloContainingIgnoreCase(nomeSerie);
 
         if(serie.isPresent()){
             var serieEncontrada = serie.get();
@@ -105,14 +109,17 @@ public class Principal {
 
             for (int i = 1; i <= serieEncontrada.getTotalTemporadas(); i++) {
                 var json = consumo.obterDados(ENDERECO +
-                        serieEncontrada.getTitulo().replace(" ", "+") +
+                        serieEncontrada.getTitulo()
+                                .replace(" ", "+") +
                         "&season=" + i + API_KEY);
-                DadosTemporadas dadosTemporadas = conversor.obterDados(json, DadosTemporadas.class);
+                DadosTemporadas dadosTemporadas =
+                        conversor.obterDados(json, DadosTemporadas.class);
 
                 if(dadosTemporadas == null ||
                     dadosTemporadas.episodios() == null ||
                     dadosTemporadas.numero() == null){
-                    System.out.println("A temporada " + i + " retornou dados inválidos." +
+                    System.out.println("A temporada " + i
+                            + " retornou dados inválidos." +
                             " Pulando...");
                     continue;
                 }
@@ -138,5 +145,17 @@ public class Principal {
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
+    }
+
+    private void buscarSeriePorTitulo(){
+        System.out.println("Procure uma série pelo nome: ");
+        var nomeSerie = leitura.nextLine();
+        Optional<Serie> serieBuscada =
+                repositorio.findByTituloContainingIgnoreCase(nomeSerie);
+        if(serieBuscada.isPresent()){
+            System.out.println("Dados da série: " + serieBuscada.get());
+        } else{
+            System.out.println("Série não encontrada!");
+        }
     }
 }
