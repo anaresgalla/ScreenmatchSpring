@@ -39,6 +39,7 @@ public class Principal {
                     5 - Buscar Séries por Elenco
                     6 - Buscar as TOP 5 Séries
                     7 - Buscar Séries por Gênero
+                    8 - Filtrar Séries
                                     
                     0 - Sair
                     """;
@@ -67,6 +68,9 @@ public class Principal {
                 case 7:
                     buscarSeriesPorGenero();
                     break;
+                case 8:
+                    filtrarSeriesPorTempEAval();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -79,7 +83,6 @@ public class Principal {
     private void buscarSerieWeb(){
         DadosSerie dados = getDadosSerie();
         Serie serie = new Serie(dados);
-
         // Verifica se já existe
         Optional<Serie> serieExistente =
                 repositorio.findByTituloContainingIgnoreCase(serie.getTitulo());
@@ -196,5 +199,21 @@ public class Principal {
         List<Serie> seriesPorGenero = repositorio.findByGenero(genero);
         System.out.println("Séries do gênero: " + nomeGenero);
         seriesPorGenero.forEach(System.out::println);
+    }
+
+    private void filtrarSeriesPorTempEAval(){
+        System.out.println("Filtrar séries até quantas temporadas? ");
+        var totalTemporadas = leitura.nextInt();
+        leitura.nextLine();
+        System.out.println("Com avaliação a partir de que valor? ");
+        var avaliacao = leitura.nextDouble();
+        leitura.nextLine();
+        List<Serie> filtroSeries = repositorio
+                .findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual
+                        (totalTemporadas, avaliacao);
+        System.out.println("*** SÉRIES FILTRADAS ***");
+        filtroSeries.forEach(s->
+                System.out.println("Título: \"" + s.getTitulo() + "\"" +
+                        " - Avaliação: " + s.getAvaliacao()));
     }
 }
