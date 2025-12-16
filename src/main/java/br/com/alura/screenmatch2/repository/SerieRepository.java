@@ -5,7 +5,9 @@ import br.com.alura.screenmatch2.model.Genero;
 import br.com.alura.screenmatch2.model.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,4 +28,11 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo " +
             "ILIKE %:trechoEpisodio%")
     List<Episodio> episodiosPorTrecho(String trechoEpisodio);
+
+    @Query("SELECT e FROM Episodio e WHERE e.serie = :serie AND e.avaliacao > 0"
+            + "ORDER BY e.avaliacao DESC")
+    List<Episodio> topEpisodiosPorSerie(
+            @Param("serie") Serie serie,
+            Pageable pageable
+    );
 }
